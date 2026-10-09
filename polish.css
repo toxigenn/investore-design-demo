@@ -1,0 +1,89 @@
+/* Refinement: Onest typography, semantic spacing, touch and motion feedback. */
+:root {
+  --space-tight: 8px;
+  --space-copy: 16px;
+  --space-group: 24px;
+  --space-panel: 32px;
+  --space-section: clamp(64px, 7vw, 112px);
+  --type-copy: 16px;
+  --type-note: 14px;
+}
+body { font-size: var(--type-copy); line-height: 1.6; }
+h1,h2,h3 { letter-spacing: -.035em; }
+.shared-wordmark,.intro .intro-logo { font-weight: 600; }
+.hero-opening h1,.kinetic-heading { letter-spacing: -.04em; }
+.section-heading { gap: var(--space-panel); margin-bottom: clamp(32px,4vw,56px); }
+.section-heading>p { font-size: 18px; line-height: 1.6; max-width: 42ch; }
+.source-note,.calc-note,.document-source-note,.document-group-note { font-size: var(--type-note); line-height: 1.65; max-width: 70ch; }
+.source-note { margin-top: var(--space-group); }
+.project-card { padding-bottom: var(--space-group); }
+.project-card h3 { line-height: 1.2; margin-block: 12px 20px; }
+.project-tenant,.project-tenant-business { line-height: 1.55; }
+.project-data { gap: var(--space-group); }
+.rate-premium,.project-data strong .rate-premium { font-size: var(--type-note); line-height: 1.5; }
+.calc-controls label,.calc-payment-mode { font-size: 16px; line-height: 1.5; }
+.calc-note { margin-top: var(--space-group); }
+.conditions-table td p,.conditions-table td a,.results-table td,.document-purpose { font-size: 16px; line-height: 1.6; }
+.conditions-table th,.conditions-table td { padding-block: var(--space-group); }
+.document-name small,.document-archive summary small { font-size: var(--type-note); line-height: 1.5; }
+.document-row { gap: var(--space-panel); padding-block: var(--space-group); }
+.faq-list details p { font-size: 16px; line-height: 1.7; padding-bottom: var(--space-group); }
+.hero-shade { background: linear-gradient(180deg,#10191080 0%,#10191030 35%,#0b170ad9 100%); }
+.hero-intro-info { left: var(--pad); right: auto; top: auto; bottom: 7%; width: min(720px,calc(100% - 2 * var(--pad))); margin: 0; }
+.hero-product { font-size: clamp(20px,1.6vw,26px); line-height: 1.35; }
+.hero-loan-terms { font-size: 18px; margin-top: 12px; }
+.hero-market-status { margin-top: var(--space-copy); padding: 12px 16px; line-height: 1.5; }
+.hero-rate-note { font-size: 14px; line-height: 1.5; max-width: 62ch; }
+.hero-registry { font-size: 14px; margin-block: 4px; }
+.button { transition: transform 120ms var(--ease),background-color 200ms ease,color 200ms ease,box-shadow 200ms ease; }
+.button>svg,.text-link svg { transition: transform 200ms var(--ease); }
+button,a,summary { touch-action: manipulation; }
+button,.filter { user-select: none; -webkit-user-select: none; }
+select,input { font-size: max(16px,1rem); }
+.mobile-nav,#detail-dialog { overscroll-behavior: contain; }
+.mobile-nav { max-height: calc(100dvh - var(--header-height)); overflow-y: auto; padding-bottom: calc(24px + env(safe-area-inset-bottom,0px)); }
+.button:active:not(:disabled),.filter:active { transform: scale(.97); }
+.button:disabled { transform: none; box-shadow: none; }
+@media (hover: none), (pointer: coarse) {
+  .button:hover,.project-card:hover,.project-image:hover,.desktop-nav a:hover { transform: none; box-shadow: none; }
+  .button:hover>svg,.text-link:hover svg,.project-image:hover img,.project-image:hover .round-link,.document-row:hover .document-arrow { transform: none; }
+  .button:after { display: none; }
+  .yellow:hover { background: var(--yellow); }
+  .dark:hover { background: var(--ink); }
+  .header .account:hover { background: transparent; border-color: var(--line); color: inherit; }
+}
+@media (max-width:800px) {
+  .hero-intro-info { bottom: 12%; }
+  .section-heading>p { font-size: 16px; }
+}
+@media (max-width:560px) {
+  :root { --space-panel: 24px; }
+  .hero-intro-info { left: 20px; bottom: calc(96px + env(safe-area-inset-bottom,0px)); width: calc(100% - 40px); }
+  .hero-product { font-size: 19px; }
+  .hero-loan-terms { font-size: 16px; margin-top: 8px; }
+  .hero-market-status { font-size: 13px; margin-top: 12px; }
+  .hero-registry,.hero-rate-note { font-size: 13px; }
+  .document-row { column-gap: 16px; row-gap: 12px; }
+  .conditions-table td p,.conditions-table td a,.document-purpose { font-size: 15px; }
+  .source-note,.calc-note { font-size: 14px; }
+  .mobile-actions { padding-bottom: calc(10px + env(safe-area-inset-bottom,0px)); }
+}
+@media (max-width:560px) and (max-height:650px) {
+  .shared-wordmark,.intro .intro-logo { top: 22%; }
+  .hero-product { font-size: 17px; }
+  .hero-market-status { padding: 8px 12px; font-size: 12px; }
+  .hero-registry,.hero-rate-note { font-size: 12px; }
+  .hero-intro-info { bottom: calc(84px + env(safe-area-inset-bottom,0px)); }
+}
+@media (max-width:1200px) {
+  :root { --header-height: calc(76px + env(safe-area-inset-top,0px)); }
+  .header { padding-top: env(safe-area-inset-top,0px); }
+}
+@media (max-width:360px) {
+  h2.kinetic-heading { font-size: 28px; line-height: 1.15; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .hero-intro-info { position: relative; inset: auto; width: auto; margin: 0 0 32px; }
+  .button,.button>svg,.text-link svg { transition: none; }
+  .button:active:not(:disabled),.filter:active { transform: none; }
+}
