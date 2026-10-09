@@ -1,47 +1,119 @@
 const projects = [
-  {id:'obuhovskoy',name:'пр-т Обуховской Обороны',city:'Санкт-Петербург',rate:36,tenant:null},
-  {id:'kirpichnye',name:'Кирпичные выемки',city:'Москва',rate:35,tenant:null},
-  {id:'kozhevnicheskaya',name:'Кожевническая',city:'Москва',rate:32,tenant:'OZON'},
-  {id:'yaroslavskoe',name:'Ярославское ш.',city:'Москва',rate:39,tenant:null},
-  {id:'veselaya',name:'Весёлая',city:'Москва',rate:32,tenant:'Кондитерская «У Палыча»'},
-  {id:'irtyshskiy',name:'Иртышский',city:'Москва',rate:33,tenant:null}
+  {
+    "id": "obuhovskoy",
+    "name": "пр-т Обуховской Обороны",
+    "city": "Санкт-Петербург",
+    "rate": 20,
+    "termMonths": 36,
+    "tenant": "ТД «Каскад» и другие",
+    "business": null,
+    "tenants": [
+      "ВЭЛЛ ООО",
+      "ТД Каскад ООО",
+      "Щипилло Дмитрий Андреевич ИП",
+      "Формат ООО",
+      "Прочие"
+    ],
+    "tenantNote": "В карточке перечислены несколько арендаторов; виды их деятельности не раскрыты.",
+    "sourceUrl": "https://investore.club/account/60/"
+  },
+  {
+    "id": "kirpichnye",
+    "name": "Кирпичные выемки",
+    "city": "Москва",
+    "rate": 23,
+    "termMonths": 36,
+    "tenant": "Арендаторы офисно-складского комплекса",
+    "business": "Офисно-складские помещения",
+    "tenants": [],
+    "tenantNote": "В кабинете указаны офисно-складские помещения, комплекс сдан в аренду. Названия компаний не раскрыты.",
+    "sourceUrl": "https://investore.club/account/59/"
+  },
+  {
+    "id": "kozhevnicheskaya",
+    "name": "Кожевническая",
+    "city": "Москва",
+    "rate": 23,
+    "termMonths": 36,
+    "tenant": "OZON",
+    "business": "Интернет-маркетплейс",
+    "tenants": [
+      "OZON"
+    ],
+    "tenantNote": "В кабинете указан единственный арендатор OZON; описание бизнеса — интернет-маркетплейс.",
+    "sourceUrl": "https://investore.club/account/24/"
+  },
+  {
+    "id": "yaroslavskoe",
+    "name": "Ярославское ш.",
+    "city": "Москва",
+    "rate": 23,
+    "termMonths": 36,
+    "tenant": "MCK lounge",
+    "business": "Кальянная / кафе",
+    "tenants": [
+      "Кальянная MCK lounge"
+    ],
+    "tenantNote": "В описании объекта — кальянная «МСК», атмосферное кафе сети.",
+    "sourceUrl": "https://investore.club/account/23/"
+  },
+  {
+    "id": "veselaya",
+    "name": "Весёлая",
+    "city": "Москва",
+    "rate": 23,
+    "termMonths": 36,
+    "tenant": "«У Палыча» и Яндекс-Маркет",
+    "business": "Федеральные торговые сети",
+    "tenants": [
+      "Кондитерская «У Палыча»",
+      "Яндекс-Маркет",
+      "Прочие"
+    ],
+    "tenantNote": "В описании кабинета оба бренда указаны как якорные арендаторы; в таблице есть и прочие арендаторы.",
+    "sourceUrl": "https://investore.club/account/9/"
+  },
+  {
+    "id": "irtyshskiy",
+    "name": "Иртышский",
+    "city": "Москва",
+    "rate": 23,
+    "termMonths": 36,
+    "tenant": "«ТРАНС-ПОРТ», «САДРИН» и другие",
+    "business": "Офисно-складские здания",
+    "tenants": [
+      "ООО «ТРАНС-ПОРТ»",
+      "ООО «КОМПАНИЯ САДРИН»",
+      "ИП Столярчук Иван Григорьевич",
+      "Прочие"
+    ],
+    "tenantNote": "Тип использования объекта указан в описании арендаторов; виды деятельности отдельных компаний не раскрыты.",
+    "sourceUrl": "https://investore.club/account/100/"
+  }
 ];
 const $ = (s) => document.querySelector(s);
 const money = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
 const icon = (id) => `<svg aria-hidden="true"><use href="#${id}"/></svg>`;
 const photo = (p,loading='lazy',sizes='(max-width: 560px) 100vw, (max-width: 800px) 50vw, 33vw') => `<img src="./assets/enhanced/${p.id}-1920.webp" srcset="./assets/enhanced/${p.id}-960.webp 960w, ./assets/enhanced/${p.id}-1920.webp 1920w, ./assets/enhanced/${p.id}-3200.webp 3200w" sizes="${sizes}" alt="Объект ${p.name}, ${p.city} — AI-обработка исходного изображения" loading="${loading}" decoding="async" width="1280" height="800">`;
 const source = 'https://investore.club/object_gallery/';
-const selected = new Set();
 let toastTimer;
 function toast(message){$('.toast').textContent=message;$('.toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('.toast').hidden=true,3500);}
 
 const featured = ['kozhevnicheskaya','kirpichnye','veselaya'].map(id=>projects.find(p=>p.id===id));
-$('#stack').innerHTML=featured.map((p,i)=>`<article class="layer" id="layer-${i}" style="z-index:${i+1}" aria-labelledby="layer-title-${i}"><div class="layer-inner"><div class="layer-media">${photo(p,'lazy','100vw')}<div class="layer-top"><span>${p.city}</span><span class="layer-count">0${i+1} / 03</span></div></div><div class="layer-info"><div><h3 id="layer-title-${i}">${p.name}</h3><p>${p.tenant?'Якорный арендатор: '+p.tenant:'Недвижимость · открытый каталог Investore'}</p></div><div class="layer-price"><strong>до ${p.rate}%</strong><small>годовых · по данным платформы</small></div><div class="layer-actions"><button class="button yellow" data-detail="${p.id}">Изучить объект ${icon('diagonal')}</button><span>Заявленная ставка не гарантирует доход. Полные условия — на платформе.</span></div></div></div></article>`).join('');
+$('#stack').innerHTML=featured.map((p,i)=>`<article class="layer" id="layer-${i}" style="z-index:${i+1}" aria-labelledby="layer-title-${i}"><div class="layer-inner"><div class="layer-media">${photo(p,'lazy','100vw')}<div class="layer-top"><span>${p.city}</span><span class="layer-count">0${i+1} / 03</span></div></div><div class="layer-info"><div><h3 id="layer-title-${i}">${p.name}</h3><p>${p.tenant} · ${p.business||'Несколько арендаторов'}</p></div><div class="layer-price"><strong>${p.rate}%</strong><small>годовых</small><small class="rate-premium">Премия 2% при досрочном погашении</small></div><div class="layer-actions"><button class="button yellow" data-detail="${p.id}">Изучить объект ${icon('diagonal')}</button><span>Заявленная ставка не гарантирует доход. Полные условия — на платформе.</span></div></div></div></article>`).join('');
 
 document.querySelectorAll('.layer').forEach((layer,i)=>{
   const marker=document.createElement('span');marker.id=`layer-jump-${i}`;marker.className='layer-marker';marker.setAttribute('aria-hidden','true');layer.before(marker);
   document.querySelectorAll('.stack-index a')[i].href=`#layer-jump-${i}`;
 });
 
-$('#catalog-grid').innerHTML=projects.map(p=>`<article class="project-card" data-id="${p.id}" data-city="${p.city}"><button class="project-image" data-detail="${p.id}" aria-label="Открыть ${p.name}">${photo(p)}<span class="image-arrow">${icon('diagonal')}</span></button><p class="project-city">${p.city}</p><h3>${p.name}</h3><div class="project-data"><strong>до ${p.rate}%<small>годовых по данным платформы</small></strong><p>${p.tenant||'Арендатор не указан в открытой карточке'}</p></div><div class="project-bottom"><button data-detail="${p.id}">Подробнее ${icon('arrow')}</button><label class="compare-toggle"><input type="checkbox" data-compare="${p.id}" aria-label="Сравнить ${p.name}">В сравнение</label></div></article>`).join('');
+$('#catalog-grid').innerHTML=projects.map(p=>`<article class="project-card" data-id="${p.id}" data-city="${p.city}"><button class="project-image" data-detail="${p.id}" aria-label="Открыть ${p.name}">${photo(p)}<span class="image-arrow">${icon('diagonal')}</span></button><p class="project-city">${p.city}</p><h3>${p.name}</h3><div class="project-data"><strong>${p.rate}%<small>годовых</small><small class="rate-premium">Премия 2% при досрочном погашении</small></strong><p class="project-tenant"><span>Арендаторы</span>${p.tenant}<small>${p.business||'Виды бизнеса в кабинете не раскрыты'}</small></p></div><div class="project-bottom"><button data-detail="${p.id}">Подробнее ${icon('arrow')}</button></div></article>`).join('');
 
 $('.filters').addEventListener('click',e=>{
   const button=e.target.closest('[data-city]');if(!button)return;
   document.querySelectorAll('.filter').forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
   let count=0;document.querySelectorAll('.project-card').forEach(card=>{card.hidden=button.dataset.city!=='all'&&card.dataset.city!==button.dataset.city;if(!card.hidden)count++;});
   $('#catalog-status').textContent=`Показано объектов: ${count}`;
-});
-
-function syncCompare(){
-  document.querySelectorAll('[data-compare]').forEach(c=>c.checked=selected.has(c.dataset.compare));
-  $('#compare-count').textContent=`${selected.size} / 3`;
-  $('#compare-open').disabled=selected.size<2;$('#mobile-compare').disabled=selected.size<2;
-  $('#mobile-compare b').textContent=selected.size;
-}
-$('#catalog-grid').addEventListener('change',e=>{
-  const id=e.target.dataset.compare;if(!id)return;
-  if(e.target.checked){if(selected.size===3){e.target.checked=false;toast('Можно сравнить до трёх объектов. Снимите один из выбранных.');return;}selected.add(id);}else selected.delete(id);
-  syncCompare();toast(selected.size===1?'Выберите ещё один объект для сравнения':selected.size?`В сравнении: ${selected.size} объекта`:'Сравнение очищено');
 });
 
 let lastTrigger=null;
@@ -52,8 +124,9 @@ document.querySelectorAll('dialog').forEach(d=>{
   d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
 });
 
+function tenantDetails(p){return `<div class="tenant-details"><h3>Бизнес в объекте</h3>${p.tenants.length?`<ul>${p.tenants.map(name=>`<li>${name}</li>`).join('')}</ul>`:''}<p>${p.tenantNote}</p><p class="source-note">Арендаторы и описание объекта сверены с карточкой кабинета 09.10.2026. <a href="${p.sourceUrl}" target="_blank" rel="noopener">Открыть источник ${icon('diagonal')}</a></p></div>`;}
 function detail(id,trigger){const p=projects.find(p=>p.id===id);if(!p)return;
-  $('#detail-content').innerHTML=`${photo(p,'eager','(max-width: 820px) 100vw, 820px').replace('<img','<img class="detail-image"')}<div class="detail-body"><p>${p.city}</p><h2 id="detail-title">${p.name}</h2><dl class="detail-facts"><div><dt>Ставка из открытого каталога</dt><dd>до ${p.rate}% годовых</dd></div><div><dt>Якорный арендатор</dt><dd>${p.tenant||'Не указан публично'}</dd></div><div><dt>Срок и сумма привлечения</dt><dd>Доступны после входа</dd></div><div><dt>Данные проверены</dt><dd>3 октября 2026</dd></div></dl><p>Открытая карточка содержит ограниченные сведения. Для решения об инвестиции изучите договор, риски и актуальную доступность на исходной платформе.</p><div class="detail-cta"><button class="button yellow" data-calculate="${p.id}">Рассчитать сценарий ${icon('arrow')}</button><a class="button light" href="${source}" target="_blank" rel="noopener">На сайт Investore ${icon('diagonal')}</a></div><p class="source-note">Ставка «до» — не обещание дохода. Сведения — investore.club. Изображение улучшено с помощью AI; мелкие детали могут отличаться. <a href="./assets/${p.id}.jpg" target="_blank" rel="noopener">Исходное изображение ↗</a></p></div>`;
+  $('#detail-content').innerHTML=`${photo(p,'eager','(max-width: 820px) 100vw, 820px').replace('<img','<img class="detail-image"')}<div class="detail-body"><p>${p.city}</p><h2 id="detail-title">${p.name}</h2><dl class="detail-facts"><div><dt>Переменная часть ставки</dt><dd>${p.rate}% годовых</dd></div><div><dt>Арендаторы</dt><dd>${p.tenant}</dd></div><div><dt>Тип бизнеса / использование объекта</dt><dd>${p.business||'Виды бизнеса не раскрыты в кабинете'}</dd></div><div><dt>Срок и сумма привлечения</dt><dd>Доступны после входа</dd></div><div><dt>Фиксированная часть ставки</dt><dd>0,01% годовых</dd></div><div><dt>Условная премия</dt><dd>2% только при досрочном погашении</dd></div></dl>${tenantDetails(p)}<p> Для решения об инвестиции изучите договор, риски и актуальную доступность на исходной платформе.</p><div class="detail-cta"><button class="button yellow" data-calculate="${p.id}">Рассчитать сценарий ${icon('arrow')}</button><a class="button light" href="${p.sourceUrl}" target="_blank" rel="noopener">Карточка в кабинете ${icon('diagonal')}</a></div><p class="source-note">Ставка не гарантирует получение дохода. Полные условия определяет оферта объекта. Изображение улучшено с помощью AI; мелкие детали могут отличаться. <a href="./assets/${p.id}.jpg" target="_blank" rel="noopener">Исходное изображение ↗</a></p></div>`;
   openDialog($('#detail-dialog'),trigger);
 }
 document.addEventListener('click',e=>{
@@ -61,26 +134,24 @@ document.addEventListener('click',e=>{
   const calcButton=e.target.closest('[data-calculate]');if(calcButton){$('#calc-project').value=calcButton.dataset.calculate;calculate();lastTrigger=$('#calc-project');$('#detail-dialog').close();$('#calculator').scrollIntoView({behavior:reduced.matches?'instant':'smooth'});$('#calc-project').focus({preventScroll:true});}
 });
 
-function drawComparison(){const items=projects.filter(p=>selected.has(p.id));
-  $('#compare-content').innerHTML=`<table class="compare-table"><caption class="sr-only">Сравнение выбранных объектов Investore</caption><thead><tr><th scope="col">Объект</th>${items.map(p=>`<th scope="col">${photo(p,'lazy','240px')}${p.name}<button data-remove="${p.id}" aria-label="Убрать ${p.name} из сравнения">Убрать</button></th>`).join('')}</tr></thead><tbody>${[['Город',p=>p.city],['Ставка в каталоге',p=>'до '+p.rate+'% годовых'],['Арендатор',p=>p.tenant||'Не указан публично'],['Срок',()=> 'После входа на платформу'],['Условия',()=>`<a href="${source}" target="_blank" rel="noopener">Открыть источник ↗</a>`]].map(([title,value])=>`<tr><th scope="row">${title}</th>${items.map(p=>`<td>${value(p)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-}
-function compare(trigger){if(selected.size<2)return;drawComparison();openDialog($('#compare-dialog'),trigger);}
-$('#compare-open').addEventListener('click',e=>compare(e.currentTarget));$('#mobile-compare').addEventListener('click',e=>compare(e.currentTarget));
-$('#compare-content').addEventListener('click',e=>{const b=e.target.closest('[data-remove]');if(!b)return;selected.delete(b.dataset.remove);syncCompare();if(selected.size<2){$('#compare-dialog').close();toast('Для сравнения нужны минимум два объекта.');}else{drawComparison();$('#compare-dialog .dialog-close').focus();}});
-
-$('#calc-project').innerHTML=projects.map(p=>`<option value="${p.id}">${p.name} · до ${p.rate}%</option>`).join('');$('#calc-project').value='kozhevnicheskaya';
+$('#calc-project').innerHTML=projects.map(p=>`<option value="${p.id}">${p.name} · ${p.rate}%</option>`).join('');$('#calc-project').value='kozhevnicheskaya';
 function monthWord(n){return n%10===1&&n%100!==11?'месяц':n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?'месяца':'месяцев';}
+const monthlyMoney = n => n.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+' ₽';
 function calculate(){
-  const p=projects.find(p=>p.id===$('#calc-project').value),amount=Number($('#amount').value),months=Number($('#months').value),reinvest=$('input[name=mode]:checked').value==='reinvest',rate=p.rate/100/12;
-  const total=reinvest?amount*Math.pow(1+rate,months):amount*(1+rate*months);
+  const p=projects.find(p=>p.id===$('#calc-project').value),amount=Number($('#amount').value);
+  $('#months').max=p.termMonths;
+  const months=Math.min(Number($('#months').value),p.termMonths);$('#months').value=months;
+  const monthly=amount*p.rate/100/12;
   $('#amount-output').textContent=money(amount);$('#months-output').textContent=`${months} ${monthWord(months)}`;
-  $('#result-total').textContent=money(total);$('#result-principal').textContent=money(amount);$('#result-income').textContent=money(total-amount);
-  $('#rate-label').textContent=`Сценарий: ${p.rate}% / год`;$('#result-label').textContent=reinvest?'Расчётный капитал':'Капитал и выплаты за период';$('#chart-end').textContent=`Через ${months} ${monthWord(months)}`;
-  const points=Array.from({length:13},(_,i)=>{const t=months*i/12,val=reinvest?amount*Math.pow(1+rate,t):amount*(1+rate*t);return `${i*500/12},${155-(val-amount)/(total-amount)*120}`;});
-  $('#chart-line').setAttribute('d','M'+points.join(' L'));$('#chart-area').setAttribute('d','M0,155 L'+points.join(' L')+' L500,175 L0,175 Z');
+  $('#result-total').textContent=monthlyMoney(monthly);$('#result-principal').textContent=money(amount);$('#result-income').textContent=money(monthly*months);
+  $('.calc-note').textContent=`Иллюстративная ежемесячная модель по переменной ставке ${p.rate}% годовых из просмотренной оферты. Диапазон 10 000–600 000 ₽ задан для расчёта, а не подтверждает доступную сумму инвестирования. В офертах 2024–2025 указана сумма одному инвестору 100 000 ₽ и поле выплат «Другой период». Актуальные сумму, ставку и график проверяйте в действующем договоре. Фиксированные 0,01%, условная премия 2%, налоги, комиссии и задержки не учтены.`;
+  $('#rate-label').textContent=`${p.rate}% годовых`;$('#income-label').textContent=`Проценты за ${months} ${monthWord(months)}`;
+  $('#calc-term').textContent=`${p.termMonths} ${monthWord(p.termMonths)}`;
+  $('#principal-return').textContent=`В конце срока займа — ${p.termMonths} ${monthWord(p.termMonths)}`;
+  $('#months').nextElementSibling.lastElementChild.textContent=`${p.termMonths} ${monthWord(p.termMonths)}`;
   [$('#amount'),$('#months')].forEach(el=>el.style.setProperty('--fill',100*(el.value-el.min)/(el.max-el.min)+'%'));
 }
-document.querySelectorAll('#calc-project,#amount,#months,input[name=mode]').forEach(el=>el.addEventListener('input',calculate));calculate();
+document.querySelectorAll('#calc-project,#amount,#months').forEach(el=>el.addEventListener('input',calculate));calculate();
 
 const menu=$('.menu-toggle'),mobileNav=$('#mobile-nav');
 function closeMenu(){menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Открыть меню');mobileNav.hidden=true;}
@@ -136,6 +207,8 @@ function paint(){
   opening.style.opacity=titleIn*(1-out);opening.style.transform=`translateY(${(1-titleIn)*65-out*55}px)`;
   $('.hero-wordmark').style.opacity=1-logoOut;$('.hero-wordmark').style.transform=`translate(-50%,-50%) translateY(${-logoOut*90}px) scale(${1-logoOut*.18})`;
   $('.hero-annotation').style.opacity=1-logoOut;
+  const introInfo=$('.hero-intro-info'),infoOut=ease((p-.06)/.2);
+  introInfo.style.opacity=1-infoOut;introInfo.style.transform=`translateY(${-infoOut*25}px)`;introInfo.inert=!reduced.matches&&infoOut>.85;
   opening.classList.toggle('accent-visible',titleIn>.7);
   document.querySelectorAll('.hero-opening .title-letter').forEach((letter,i)=>{const v=ease((p-.13-i*.004)/.12);letter.style.transform=`translateY(${(1-v)*110}%)`});
   story.style.opacity=reveal;story.style.transform=`translateY(${(1-reveal)*65}px)`;
