@@ -1,6 +1,7 @@
 const projects = [
   {
     "id": "obuhovskoy",
+    "borrower": "ООО «СКИФ», ИНН 7804613190",
     "name": "пр-т Обуховской Обороны",
     "city": "Санкт-Петербург",
     "rate": 20,
@@ -19,6 +20,7 @@ const projects = [
   },
   {
     "id": "kirpichnye",
+    "borrower": "ООО «ОМЕГА», ИНН 4705095672",
     "name": "Кирпичные выемки",
     "city": "Москва",
     "rate": 23,
@@ -31,6 +33,7 @@ const projects = [
   },
   {
     "id": "kozhevnicheskaya",
+    "borrower": "ООО «ОМЕГА», ИНН 4705095672",
     "name": "Кожевническая",
     "city": "Москва",
     "rate": 23,
@@ -45,6 +48,7 @@ const projects = [
   },
   {
     "id": "yaroslavskoe",
+    "borrower": "ООО «АЛЬФА», ИНН 7840349512",
     "name": "Ярославское ш.",
     "city": "Москва",
     "rate": 23,
@@ -59,6 +63,7 @@ const projects = [
   },
   {
     "id": "veselaya",
+    "borrower": "ООО «ДЕМЕТРИС», ИНН 7839451825",
     "name": "Весёлая",
     "city": "Москва",
     "rate": 23,
@@ -75,6 +80,7 @@ const projects = [
   },
   {
     "id": "irtyshskiy",
+    "borrower": "ООО «ВСК», ИНН 7839451818",
     "name": "Иртышский",
     "city": "Москва",
     "rate": 23,
@@ -126,7 +132,7 @@ document.querySelectorAll('dialog').forEach(d=>{
 
 function tenantDetails(p){return `<div class="tenant-details"><h3>Бизнес в объекте</h3>${p.tenants.length?`<ul>${p.tenants.map(name=>`<li>${name}</li>`).join('')}</ul>`:''}<p>${p.tenantNote}</p><p class="source-note">Арендаторы и описание объекта сверены с карточкой кабинета 09.10.2026. <a href="${p.sourceUrl}" target="_blank" rel="noopener">Открыть источник ${icon('diagonal')}</a></p></div>`;}
 function detail(id,trigger){const p=projects.find(p=>p.id===id);if(!p)return;
-  $('#detail-content').innerHTML=`${photo(p,'eager','(max-width: 820px) 100vw, 820px').replace('<img','<img class="detail-image"')}<div class="detail-body"><p>${p.city}</p><h2 id="detail-title">${p.name}</h2><dl class="detail-facts"><div><dt>Переменная часть ставки</dt><dd>${p.rate}% годовых</dd></div><div><dt>Арендаторы</dt><dd>${p.tenant}</dd></div><div><dt>Тип бизнеса / использование объекта</dt><dd>${p.business||'Виды бизнеса не раскрыты в кабинете'}</dd></div><div><dt>Срок и сумма привлечения</dt><dd>Доступны после входа</dd></div><div><dt>Фиксированная часть ставки</dt><dd>0,01% годовых</dd></div><div><dt>Условная премия</dt><dd>2% только при досрочном погашении</dd></div></dl>${tenantDetails(p)}<p> Для решения об инвестиции изучите договор, риски и актуальную доступность на исходной платформе.</p><div class="detail-cta"><button class="button yellow" data-calculate="${p.id}">Рассчитать сценарий ${icon('arrow')}</button><a class="button light" href="${p.sourceUrl}" target="_blank" rel="noopener">Карточка в кабинете ${icon('diagonal')}</a></div><p class="source-note">Ставка не гарантирует получение дохода. Полные условия определяет оферта объекта. Изображение улучшено с помощью AI; мелкие детали могут отличаться. <a href="./assets/${p.id}.jpg" target="_blank" rel="noopener">Исходное изображение ↗</a></p></div>`;
+  $('#detail-content').innerHTML=`${photo(p,'eager','(max-width: 820px) 100vw, 820px').replace('<img','<img class="detail-image"')}<div class="detail-body"><p>${p.city}</p><h2 id="detail-title">${p.name}</h2><dl class="detail-facts"><div><dt>Переменная часть ставки</dt><dd>${p.rate}% годовых</dd></div><div><dt>Арендаторы</dt><dd>${p.tenant}</dd></div><div><dt>Тип бизнеса / использование объекта</dt><dd>${p.business||'Виды бизнеса не раскрыты в кабинете'}</dd></div><div><dt>Заёмщик — собственник</dt><dd>${p.borrower}</dd></div><div><dt>Срок по просмотренной оферте</dt><dd>${p.termMonths} месяцев; дата возврата — по договору</dd></div><div><dt>Фиксированная часть ставки</dt><dd>0,01% годовых</dd></div><div><dt>Условная премия</dt><dd>2% только при досрочном погашении</dd></div></dl>${tenantDetails(p)}<p> Для решения об инвестиции изучите договор, риски и актуальную доступность на исходной платформе.</p><div class="detail-cta"><button class="button yellow" data-calculate="${p.id}">Рассчитать сценарий ${icon('arrow')}</button><a class="button light" href="${p.sourceUrl}" target="_blank" rel="noopener">Карточка в кабинете ${icon('diagonal')}</a></div><p class="source-note">Ставка не гарантирует получение дохода. Полные условия определяет оферта объекта. Изображение улучшено с помощью AI; мелкие детали могут отличаться. <a href="./assets/${p.id}.jpg" target="_blank" rel="noopener">Исходное изображение ↗</a></p></div>`;
   openDialog($('#detail-dialog'),trigger);
 }
 document.addEventListener('click',e=>{
