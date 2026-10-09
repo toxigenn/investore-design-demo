@@ -7,9 +7,9 @@
   <title>Investore — у ваших инвестиций есть адрес</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('investore-theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
-  <link rel="stylesheet" href="./assets/fonts.css"><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./experience.css"><link rel="stylesheet" href="./motion.css"><link rel="stylesheet" href="./polish.css"><link rel="stylesheet" href="./audit.css">
+  <link rel="stylesheet" href="./assets/fonts.css"><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./experience.css"><link rel="stylesheet" href="./motion.css"><link rel="stylesheet" href="./polish.css"><link rel="stylesheet" href="./audit.css"><link rel="stylesheet" href="./assistant.css">
   <link rel="preload" href="./assets/enhanced/kozhevnicheskaya-1920.webp" as="image" imagesrcset="./assets/enhanced/kozhevnicheskaya-960.webp 960w, ./assets/enhanced/kozhevnicheskaya-1920.webp 1920w, ./assets/enhanced/kozhevnicheskaya-3200.webp 3200w" imagesizes="100vw">
-  <script src="./app.js" defer></script>
+  <script src="./app.js" defer></script><script src="./assistant.js" defer></script>
 </head>
 <body>
   <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -150,7 +150,12 @@
   <dialog id="detail-dialog" aria-labelledby="detail-title"><button class="dialog-close icon-button" aria-label="Закрыть карточку"><svg><use href="#close"/></svg></button><div id="detail-content"></div></dialog>
   <div class="toast" role="status" aria-live="polite" hidden></div>
   <noscript><div class="no-js">Для интерактивного каталога включите JavaScript или <a href="https://investore.club/object_gallery/">откройте каталог Investore</a>.</div></noscript>
+
+  <div class="site-tools"><button id="back-to-top" class="tool-button" aria-label="Вернуться наверх" title="Наверх" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button><button id="assistant-launch" class="tool-button assistant-launch" aria-haspopup="dialog" aria-controls="assistant-panel" aria-label="Открыть помощника Investore"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4V5Z"/><path d="M8 9h8M8 13h5"/></svg><span>Помощник</span></button></div>
+  <dialog id="assistant-panel" class="assistant-panel" aria-labelledby="assistant-title"><div class="assistant-head"><div><h2 id="assistant-title">Помощник Investore</h2><p id="assistant-mode" class="assistant-mode">Справочный режим</p></div><button class="assistant-close" aria-label="Закрыть помощника"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="assistant-log" class="assistant-log" role="log" aria-live="polite" aria-relevant="additions" aria-label="Переписка с помощником"></div><div class="assistant-suggestions"><button data-chat-question="Как работает Investore?">Как это работает</button><button data-chat-question="Какая минимальная сумма?">Сумма входа</button><button data-chat-question="Какие риски?">Риски</button></div><form id="assistant-form" class="assistant-form"><label class="sr-only" for="assistant-input">Ваш вопрос об Investore</label><textarea id="assistant-input" rows="1" maxlength="1500" placeholder="Вопрос об Investore…" enterkeyhint="send"></textarea><button id="assistant-send" class="assistant-send" type="submit" aria-label="Отправить вопрос"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12 16-8-5 16-3-7-8-1ZM12 13l8-9"/></svg></button></form><p id="assistant-status" class="assistant-status" role="status"></p></dialog>
+  <script id="assistant-config" type="application/json">{"endpoint":"https://investore-design-demo.vercel.app/api/assistant"}</script>
 </body></html>
+
 
 
 

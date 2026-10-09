@@ -124,7 +124,7 @@ $('.filters').addEventListener('click',e=>{
 
 let lastTrigger=null;
 function openDialog(dialog,trigger){lastTrigger=trigger;dialog.showModal();document.body.classList.add('locked');dialog.querySelector('button')?.focus();}
-document.querySelectorAll('dialog').forEach(d=>{
+document.querySelectorAll('dialog:not(#assistant-panel)').forEach(d=>{
   d.querySelector('.dialog-close').addEventListener('click',()=>d.close());
   d.addEventListener('close',()=>{document.body.classList.remove('locked');if(lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});});
   d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
@@ -167,7 +167,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mobileNav.hidden){
 
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const themeButton=$('.theme-toggle');
-function setTheme(theme){document.documentElement.dataset.theme=theme;themeButton.setAttribute('aria-pressed',String(theme==='dark'));themeButton.setAttribute('aria-label',theme==='dark'?'Включить светлую тему':'Включить тёмную тему');$('meta[name="theme-color"]')?.setAttribute('content',theme==='dark'?'#141a17':'#f4f5ed');try{localStorage.setItem('investore-theme',theme)}catch{}}
+function setTheme(theme){document.documentElement.dataset.theme=theme;themeButton.setAttribute('aria-pressed',String(theme==='dark'));themeButton.setAttribute('aria-label',theme==='dark'?'Включить светлую тему':'Включить тёмную тему');$('meta[name="theme-color"]')?.setAttribute('content',theme==='dark'?'#111318':'#f4f5ed');try{localStorage.setItem('investore-theme',theme)}catch{}}
 setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
 themeButton.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 const intro=$('.intro');
